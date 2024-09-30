@@ -7,15 +7,19 @@
 </head>
 <body>
     <script>
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/service-worker.js').then(function(registration) {
-              console.log('Service Worker registered with scope:', registration.scope);
-            }, function(err) {
-              console.log('Service Worker registration failed:', err);
-            });
-          });
-        }
-      </script>
+  // Initialize the agent on page load.
+  const fpPromise = import('https://fpjscdn.net/v3/QcNjxHCT3hVc7mPN8KYu')
+    .then(FingerprintJS => FingerprintJS.load({
+      region: "eu"
+    }))
+
+  // Get the visitorId when you need it.
+  fpPromise
+    .then(fp => fp.get())
+    .then(result => {
+      const visitorId = result.visitorId
+      console.log(visitorId)
+    })
+</script>
 </body>
 </html>
